@@ -1509,10 +1509,14 @@ function openSaleModal(id) {
   document.getElementById('sm-buyer').value = s?.buyerName||'';
   document.getElementById('sm-notes').value = s?.notes||'';
 
-  // Auto-fill acquisition cost when animal selected
+  // Auto-fill acquisition cost and allocated input cost when animal selected
   document.getElementById('sm-animal').onchange = function() {
     const a = DB.animals.find(x=>x.animalId===this.value);
-    if (a) { document.getElementById('sm-acqcost').value = a.acquisitionCost||0; calcSaleProfit(); }
+    if (a) {
+      document.getElementById('sm-acqcost').value = a.acquisitionCost||0;
+      document.getElementById('sm-inputcost').value = Compute.allocatedInputCost(a.animalId)||0;
+      calcSaleProfit();
+    }
   };
   openModal('sale-modal');
 }
